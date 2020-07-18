@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import HelloWorld from './components/HelloWorld';
 import SignIn from './components/Auth/SignIn'
 import SignUp from './components/Auth/SignUp'
+import Perfume from './components/Perfume/List'
 
 import store from './store'
 
@@ -12,7 +13,8 @@ Vue.use(VueRouter)
 const routes = [
   { path: '/', component: HelloWorld, meta: { public: true } },
   { path: '/signin', component: SignIn, meta: { public: true, onlyWhenLoggedOut: true } },
-  { path: '/signup', component: SignUp, meta: { public: true, onlyWhenLoggedOut: true } }
+  { path: '/signup', component: SignUp, meta: { public: true, onlyWhenLoggedOut: true } },
+  { path: '/perfume', component: Perfume },
 ]
 
 const router = new VueRouter({
