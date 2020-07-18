@@ -34,11 +34,9 @@ export default {
   methods: {
     ...mapActions(["signOut"]),
     async onSignOut() {
-      const signOut = await this.signOut();
+      await this.signOut();
 
-      if (signOut) {
-        this.$router.push("/");
-      }
+      return this.$router.push("/signin");
     }
   }
 };

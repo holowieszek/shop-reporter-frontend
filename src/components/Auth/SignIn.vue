@@ -17,6 +17,7 @@
                 type="email"
                 v-model.trim="credentials.email"
                 :error="errors && $v.credentials.email.$invalid"
+                autofocus
               ></v-text-field>
 
               <v-text-field
