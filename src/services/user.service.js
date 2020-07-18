@@ -23,7 +23,7 @@ const signIn = async ({ email, password }) => {
 
 const isAuthenticated = async () => {
   const isAuthenticated = await Auth.currentAuthenticatedUser()
-  console.log('isAuthenticated', isAuthenticated);
+
   return isAuthenticated
 }
 

@@ -5,8 +5,7 @@ import HelloWorld from './components/HelloWorld';
 import SignIn from './components/Auth/SignIn'
 import SignUp from './components/Auth/SignUp'
 
-import asyncWrapper from './utils/asyncWrapper'
-import { isAuthenticated } from './services/user.service'
+import store from './store'
 
 Vue.use(VueRouter)
 
@@ -24,13 +23,13 @@ const router = new VueRouter({
 router.beforeEach(async (to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(record => record.meta.onlyWhenLoggedOut)
-  const isLogged = await asyncWrapper(isAuthenticated());
+  const isLogged = await store.dispatch('isAuthenticated');
 
-  if (!isLogged.result && !isPublic) {
+  if (!isLogged && !isPublic) {
     return next({ path: '/signin' });
   }
 
-  if (isLogged.result && onlyWhenLoggedOut) {
+  if (isLogged && onlyWhenLoggedOut) {
     return next('/perfume');
   }
 

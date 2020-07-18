@@ -1,13 +1,15 @@
 import asyncWrapper from '../../utils/asyncWrapper'
-import { signUp, signIn } from '../../services/user.service'
-import { SET_USER } from '../mutationTypes'
+import { isAuthenticated, signUp, signIn } from '../../services/user.service'
+import { SET_USER, SET_IS_AUTHENTICATED } from '../mutationTypes'
 
 const state = {
-  user: []
+  user: [],
+  isAuthenticated: false
 }
 
 const getters = {
-  user: state => state.user
+  user: state => state.user,
+  isAuthenticated: state => state.isAuthenticated
 }
 
 const actions = {
@@ -28,12 +30,22 @@ const actions = {
     }
 
     return { error }
+  },
+  async isAuthenticated({ commit }) {
+    const { result } = await asyncWrapper(isAuthenticated())
+
+    result ? commit(SET_IS_AUTHENTICATED, true) : commit(SET_IS_AUTHENTICATED, false)
+    
+    return result
   }
 }
 
 const mutations = {
   [SET_USER] (state, payload) {
     state.user = payload
+  },
+  [SET_IS_AUTHENTICATED] (state, payload) {
+    state.isAuthenticated = payload
   }
 }
 

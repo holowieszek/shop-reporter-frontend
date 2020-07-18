@@ -5,7 +5,7 @@
     </v-btn>
 
     <v-spacer></v-spacer>
-
+    {{ isAuthenticated }}
     <v-btn to="/signin" text>
       <span>Sign in</span>
     </v-btn>
@@ -16,7 +16,11 @@
 </template>
 
 <script>
-export default {};
+import { mapGetters } from 'vuex'
+
+export default {
+  computed: mapGetters(['isAuthenticated'])
+};
 </script>
 
 <style>
