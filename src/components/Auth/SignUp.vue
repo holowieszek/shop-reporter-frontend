@@ -7,13 +7,13 @@
             <v-toolbar-title>Sign up</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-form @submit.prevent="onSubmit">
+          <v-form @submit="onSubmit">
             <v-card-text>
               <v-text-field
                 label="Email"
                 name="emaik"
                 prepend-icon="mdi-account"
-                type="text"
+                type="email"
                 v-model="credentials.email"
                 :error="errors && $v.credentials.email.$invalid"
               ></v-text-field>
