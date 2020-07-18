@@ -7,14 +7,15 @@
             <v-toolbar-title>Sign up</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-card-text>
-            <v-form>
+          <v-form @submit.prevent="onSubmit">
+            <v-card-text>
               <v-text-field
                 label="Email"
                 name="emaik"
                 prepend-icon="mdi-account"
                 type="text"
-                v-model="email"
+                v-model="credentials.email"
+                :error="errors && $v.credentials.email.$invalid"
               ></v-text-field>
 
               <v-text-field
@@ -23,7 +24,8 @@
                 name="password"
                 prepend-icon="mdi-lock"
                 type="password"
-                v-model="password"
+                v-model="credentials.password"
+                :error="errors && $v.credentials.password.$invalid"
               ></v-text-field>
 
               <v-text-field
@@ -32,14 +34,15 @@
                 name="confirm-password"
                 prepend-icon="mdi-lock"
                 type="password"
-                v-model="confirmPassword"
+                v-model="credentials.confirmPassword"
+                :error="errors && $v.credentials.confirmPassword.$invalid"
               ></v-text-field>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" @click="onSubmit">Sign up</v-btn>
-          </v-card-actions>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" type="submit" :disabled="$v.credentials.$invalid">Sign up</v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
       </v-col>
     </v-row>
@@ -47,20 +50,38 @@
 </template>
 
 <script>
+import { validationMixin } from "vuelidate";
+import { required, email, sameAs } from "vuelidate/lib/validators";
+
 export default {
   data: () => ({
-    email: "",
-    password: "",
-    confirmPassword: ""
+    credentials: {
+      email: "",
+      password: "",
+      confirmPassword: ""
+    },
+    errors: false
   }),
+  mixins: [validationMixin],
+  validations: {
+    credentials: {
+      email: { required, email },
+      password: { required },
+      confirmPassword: { required, sameAs: sameAs("password") }
+    }
+  },
   methods: {
     onSubmit() {
-      const { email, password, confirmPassword } = this
-      if (password !== confirmPassword) {
-        return;
-      }
+      this.validate();
+      const { email, password, confirmPassword } = this.credentials;
 
       console.log({ email, password, confirmPassword });
+    },
+    validate() {
+      if (this.$v.credentials.$invalid) {
+        this.errors = true;
+        return;
+      }
     }
   }
 };
