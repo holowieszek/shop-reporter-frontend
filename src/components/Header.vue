@@ -13,7 +13,7 @@
         @click="route.title.toLowerCase() === 'logout' ? onSignOut() : null"
         text
       >
-        <span>{{ route.title }} {{ route.method }}</span>
+        <span>{{ route.title }}</span>
       </v-btn>
     </div>
   </v-app-bar>
