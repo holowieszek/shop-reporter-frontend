@@ -7,7 +7,7 @@
     <v-spacer></v-spacer>
 
     <div v-for="(route, index) in routes" :key="index">
-      <v-btn :to="route.path" v-if="route.forLogged == isAuthenticated" text>
+      <v-btn :to="route.path" v-if="route.forLogged === isAuthenticated" text>
         <span>{{ route.title }}</span>
       </v-btn>
     </div>
