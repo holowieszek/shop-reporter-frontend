@@ -7,7 +7,7 @@
             <v-toolbar-title>Sign up</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-form @submit="onSubmit">
+          <v-form @submit.prevent="onSubmit">
             <v-card-text>
               <v-text-field
                 label="Email"
@@ -52,6 +52,8 @@
 <script>
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs } from "vuelidate/lib/validators";
+import { signUp } from '../../services/user.service'
+import asyncWrapper from '../../utils/asyncWrapper'
 
 export default {
   data: () => ({
@@ -71,11 +73,16 @@ export default {
     }
   },
   methods: {
-    onSubmit() {
+    async onSubmit() {
       this.validate();
-      const { email, password, confirmPassword } = this.credentials;
+      const { credentials } = this;
 
-      console.log({ email, password, confirmPassword });
+      const { error, result } = await asyncWrapper(signUp(credentials))
+
+      console.log({
+        error,
+        result
+      });
     },
     validate() {
       if (this.$v.credentials.$invalid) {
