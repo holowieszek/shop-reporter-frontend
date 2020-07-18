@@ -14,12 +14,20 @@ const actions = {
   async signUp({ commit }, data) {
     const { error, result } = await asyncWrapper(signUp(data))
 
-    return !error ? commit(SET_USER, result.user) : { error }
+    if (!error) {
+      commit(SET_USER, result.user)
+    }
+
+    return { error }
   },
   async signIn({ commit }, data) {
     const { error, result } = await asyncWrapper(signIn(data))
 
-    return !error ? commit(SET_USER, result.user) : { error }
+    if (!error) {
+      commit(SET_USER, result.user)
+    }
+
+    return { error }
   }
 }
 

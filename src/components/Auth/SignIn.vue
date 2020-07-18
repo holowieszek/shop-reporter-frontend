@@ -7,7 +7,7 @@
             <v-toolbar-title>Sing in</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
-          <v-form @submit.prevent="onSubmit">
+          <v-form @submit.prevent.stop="onSubmit">
             <v-card-text>
               <Alert :showAlert="showAlert" type="error" :alertMessage="alertMessage" />
               <v-text-field
@@ -45,7 +45,7 @@ import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, email } from "vuelidate/lib/validators";
 
-import Alert from '../common/Alert'
+import Alert from "../common/Alert";
 
 export default {
   data: () => ({
@@ -76,6 +76,8 @@ export default {
       if (error) {
         this.alertMessage = error.message;
         this.showAlert = true;
+      } else {
+        this.$router.push('/perfume')
       }
     },
     validate() {

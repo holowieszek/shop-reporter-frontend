@@ -21,7 +21,14 @@ const signIn = async ({ email, password }) => {
   return signIn
 }
 
+const isAuthenticated = async () => {
+  const isAuthenticated = await Auth.currentAuthenticatedUser()
+  console.log('isAuthenticated', isAuthenticated);
+  return isAuthenticated
+}
+
 export {
   signUp,
-  signIn
+  signIn,
+  isAuthenticated
 }
