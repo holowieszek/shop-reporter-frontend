@@ -7,25 +7,40 @@
     <v-spacer></v-spacer>
 
     <div v-for="(route, index) in routes" :key="index">
-      <v-btn :to="route.path" v-if="route.forLogged === isAuthenticated" text>
-        <span>{{ route.title }}</span>
+      <v-btn
+        :to="route.path"
+        v-if="route.forLogged === isAuthenticated"
+        @click="route.title.toLowerCase() === 'logout' ? onSignOut() : null"
+        text
+      >
+        <span>{{ route.title }} {{ route.method }}</span>
       </v-btn>
     </div>
   </v-app-bar>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data: () => ({
     routes: [
-      { path: "/signin", title: 'Sign In', forLogged: false },
-      { path: "/signup", title: 'Sign Up', forLogged: false },
-      { path: "/logout", title: 'Logout', forLogged: true }
+      { path: "/signin", title: "Sign In", forLogged: false },
+      { path: "/signup", title: "Sign Up", forLogged: false },
+      { path: "/logout", title: "Logout", forLogged: true }
     ]
   }),
-  computed: mapGetters(["isAuthenticated"])
+  computed: mapGetters(["isAuthenticated"]),
+  methods: {
+    ...mapActions(["signOut"]),
+    async onSignOut() {
+      const signOut = await this.signOut();
+
+      if (signOut) {
+        this.$router.push("/");
+      }
+    }
+  }
 };
 </script>
 
