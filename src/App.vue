@@ -3,25 +3,23 @@
     <Header />
 
     <v-content>
-      <HelloWorld/>
+      <router-view />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import Header from './components/Header';
-import HelloWorld from './components/HelloWorld';
+import Header from "./components/Header";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
     Header
   },
 
   data: () => ({
     //
-  }),
+  })
 };
 </script>
