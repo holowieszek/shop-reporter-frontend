@@ -50,9 +50,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs } from "vuelidate/lib/validators";
-import { signUp } from '../../services/user.service'
 import asyncWrapper from '../../utils/asyncWrapper'
 
 export default {
@@ -73,16 +73,12 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['signUp']),
     async onSubmit() {
       this.validate();
       const { credentials } = this;
 
-      const { error, result } = await asyncWrapper(signUp(credentials))
-
-      console.log({
-        error,
-        result
-      });
+      await asyncWrapper(this.signUp(credentials))
     },
     validate() {
       if (this.$v.credentials.$invalid) {
