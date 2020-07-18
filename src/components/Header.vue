@@ -5,21 +5,27 @@
     </v-btn>
 
     <v-spacer></v-spacer>
-    {{ isAuthenticated }}
-    <v-btn to="/signin" text>
-      <span>Sign in</span>
-    </v-btn>
-    <v-btn to="/signup" text>
-      <span>Sign up</span>
-    </v-btn>
+
+    <div v-for="(route, index) in routes" :key="index">
+      <v-btn :to="route.path" v-if="route.forLogged == isAuthenticated" text>
+        <span>{{ route.title }}</span>
+      </v-btn>
+    </div>
   </v-app-bar>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
-  computed: mapGetters(['isAuthenticated'])
+  data: () => ({
+    routes: [
+      { path: "/signin", title: 'Sign In', forLogged: false },
+      { path: "/signup", title: 'Sign Up', forLogged: false },
+      { path: "/logout", title: 'Logout', forLogged: true }
+    ]
+  }),
+  computed: mapGetters(["isAuthenticated"])
 };
 </script>
 
