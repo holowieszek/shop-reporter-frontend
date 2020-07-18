@@ -7,10 +7,10 @@
     <v-spacer></v-spacer>
 
     <v-btn to="/signin" text>
-      <span class="mr-2">Sign in</span>
+      <span>Sign in</span>
     </v-btn>
     <v-btn to="/signup" text>
-      <span class="mr-2">Sign up</span>
+      <span>Sign up</span>
     </v-btn>
   </v-app-bar>
 </template>
