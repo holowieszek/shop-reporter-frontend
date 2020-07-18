@@ -88,6 +88,8 @@ export default {
       if (error) {
         this.alertMessage = error.message;
         this.showAlert = true;
+      } else {
+        this.$router.push('/')
       }
     },
     validate() {
