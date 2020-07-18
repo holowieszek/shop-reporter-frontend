@@ -1,5 +1,5 @@
 import asyncWrapper from '../../utils/asyncWrapper'
-import { isAuthenticated, signUp, signIn } from '../../services/user.service'
+import { signUp, signIn, signOut, isAuthenticated } from '../../services/user.service'
 import { SET_USER, SET_IS_AUTHENTICATED } from '../mutationTypes'
 
 const state = {
@@ -31,12 +31,30 @@ const actions = {
 
     return { error }
   },
+  async signOut({ commit }) {
+    const { error, result } = await asyncWrapper(signOut())
+
+    if (!error) {
+      commit(SET_IS_AUTHENTICATED, false)
+      commit(SET_USER, [])
+    }
+
+    return result
+  },
   async isAuthenticated({ commit }) {
     const { result } = await asyncWrapper(isAuthenticated())
 
-    result ? commit(SET_IS_AUTHENTICATED, true) : commit(SET_IS_AUTHENTICATED, false)
-    
-    return result
+    if (result) {
+      commit(SET_IS_AUTHENTICATED, true)
+      commit(SET_USER, result)
+
+      return result
+    }
+
+    commit(SET_IS_AUTHENTICATED, false)
+    // result ? commit(SET_IS_AUTHENTICATED, true) : commit(SET_IS_AUTHENTICATED, false)
+
+    // return result
   }
 }
 

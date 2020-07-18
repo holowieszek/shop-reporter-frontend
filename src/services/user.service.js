@@ -21,6 +21,12 @@ const signIn = async ({ email, password }) => {
   return signIn
 }
 
+const signOut = async () => {
+  const signOut = await Auth.signOut()
+
+  return signOut
+}
+
 const isAuthenticated = async () => {
   const isAuthenticated = await Auth.currentAuthenticatedUser()
 
@@ -30,5 +36,6 @@ const isAuthenticated = async () => {
 export {
   signUp,
   signIn,
+  signOut,
   isAuthenticated
 }
