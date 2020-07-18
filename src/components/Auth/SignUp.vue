@@ -9,12 +9,13 @@
           </v-toolbar>
           <v-form @submit.prevent="onSubmit">
             <v-card-text>
+              <Alert :showAlert="showAlert" type="error" :alertMessage="alertMessage" />
               <v-text-field
                 label="Email"
                 name="emaik"
                 prepend-icon="mdi-account"
                 type="email"
-                v-model="credentials.email"
+                v-model.trim="credentials.email"
                 :error="errors && $v.credentials.email.$invalid"
               ></v-text-field>
 
@@ -24,7 +25,7 @@
                 name="password"
                 prepend-icon="mdi-lock"
                 type="password"
-                v-model="credentials.password"
+                v-model.trim="credentials.password"
                 :error="errors && $v.credentials.password.$invalid"
               ></v-text-field>
 
@@ -34,7 +35,7 @@
                 name="confirm-password"
                 prepend-icon="mdi-lock"
                 type="password"
-                v-model="credentials.confirmPassword"
+                v-model.trim="credentials.confirmPassword"
                 :error="errors && $v.credentials.confirmPassword.$invalid"
               ></v-text-field>
             </v-card-text>
@@ -50,10 +51,11 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 import { validationMixin } from "vuelidate";
 import { required, email, sameAs } from "vuelidate/lib/validators";
-import asyncWrapper from '../../utils/asyncWrapper'
+
+import Alert from '../common/Alert'
 
 export default {
   data: () => ({
@@ -62,8 +64,11 @@ export default {
       password: "",
       confirmPassword: ""
     },
-    errors: false
+    errors: false,
+    showAlert: false,
+    alertMessage: ""
   }),
+  components: { Alert },
   mixins: [validationMixin],
   validations: {
     credentials: {
@@ -73,12 +78,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['signUp']),
+    ...mapActions(["signUp"]),
     async onSubmit() {
       this.validate();
       const { credentials } = this;
 
-      await asyncWrapper(this.signUp(credentials))
+      const { error } = await this.signUp(credentials);
+
+      if (error) {
+        this.alertMessage = error.message;
+        this.showAlert = true;
+      }
     },
     validate() {
       if (this.$v.credentials.$invalid) {

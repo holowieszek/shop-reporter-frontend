@@ -8,10 +8,20 @@ const signUp = async ({ email, password }) => {
       email
     }
   })
-  
+
   return signUp
 }
 
+const signIn = async ({ email, password }) => {
+  const signIn = await Auth.signIn({
+    username: email,
+    password
+  })
+
+  return signIn
+}
+
 export {
-  signUp
+  signUp,
+  signIn
 }

@@ -1,5 +1,5 @@
 import asyncWrapper from '../../utils/asyncWrapper'
-import { signUp } from '../../services/user.service'
+import { signUp, signIn } from '../../services/user.service'
 import { SET_USER } from '../mutationTypes'
 
 const state = {
@@ -14,7 +14,12 @@ const actions = {
   async signUp({ commit }, data) {
     const { error, result } = await asyncWrapper(signUp(data))
 
-    return !error ? commit(SET_USER, result.user) : error;
+    return !error ? commit(SET_USER, result.user) : { error }
+  },
+  async signIn({ commit }, data) {
+    const { error, result } = await asyncWrapper(signIn(data))
+
+    return !error ? commit(SET_USER, result.user) : { error }
   }
 }
 
