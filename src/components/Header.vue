@@ -1,7 +1,7 @@
 <template>
   <v-app-bar app color="primary" dark>
     <v-btn to="/" text :ripple="false">
-      <span>App</span>
+      <span>App ci test</span>
     </v-btn>
 
     <v-spacer></v-spacer>
